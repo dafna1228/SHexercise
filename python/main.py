@@ -4,6 +4,9 @@ from urllib.parse import urlparse, parse_qs
 
 def fibonacci(n: int):
     """Return the first `n` Fibonacci numbers."""
+    # check for input validity- positive ints.
+    if not isinstance(n, int) or n < 0:
+        raise ValueError("Input must be a non-negative integer.")
     ret = [1, 1]
     while len(ret) < n:
         ret.append(ret[-2] + ret[-1])
