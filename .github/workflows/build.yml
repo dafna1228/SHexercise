@@ -1,11 +1,15 @@
 # populate if using GitHub Actions
-name: Actions Runner Controller Demo
+name: Example 1
 on:
-  workflow_dispatch:
-
+ push:
+   branches: [ main ]
 jobs:
-  Explore-GitHub-Actions:
-    # You need to use the INSTALLATION_NAME from the previous step
-    runs-on: arc-runner-set
-    steps:
-    - run: echo "🎉 This job uses runner scale set runners!"
+ build:
+   name: Build-job
+   runs-on: self-hosted
+   steps:
+   - name: Checkout
+     uses: actions/checkout@v2
+   - name: Print message
+     run: echo "Workflow is running on a self-hosted runner"
+

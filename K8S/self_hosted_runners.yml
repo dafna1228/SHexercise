@@ -1,0 +1,10 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+ name: k8s-action-runner
+ namespace: arc-systems
+spec:
+ replicas: 1
+ template:
+   spec:
+     repository: dafna1228/SHexercise
