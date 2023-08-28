@@ -26,16 +26,10 @@ jobs:
 #      - name: Run unit tests
 #        run: python -m pytest python/tests.py
 
-      - name: Get next version
-        uses: reecetech/version-increment@2023.4.1
-        id: version
-        with:
-          scheme: semver
-          increment: patch
       - name: Build Docker image and tag it with latest.
         run: |
-          docker build -t dafna/fibi:${{ steps.version.outputs.version }} .
-          docker tag dafna/fibi:${{ steps.version.outputs.version }} dafna/fibi:latest
+          docker build -t dafna/fibi:${{ github.run_number }} .
+          docker tag dafna/fibi:${{ github.run_number }} dafna/fibi:latest
         working-directory: python
 
       - name: Run the built container to test image, sleep a bit for the webserver to start
@@ -60,7 +54,7 @@ jobs:
 
       - name: Push Docker image as latest + with the new version
         run: |
-          docker push dafna/fibi:${{ steps.version.outputs.version }}
+          docker push dafna/fibi:${{ github.run_number }}
           docker push dafna/fibi:latest
 #
 #      - name: Deploy to Kubernetes
