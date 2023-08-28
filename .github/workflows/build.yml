@@ -35,7 +35,7 @@ jobs:
 
       - name: Curl the container and check status
         run: |
-          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8000/) # ?n=10
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8000/?n=10)
           if [[ "$RESPONSE" -eq 200 ]]; then
             echo "HTTP request succeeded with status code 200"
             exit 0  # Success exit code
@@ -44,14 +44,23 @@ jobs:
             exit 1  # Failure exit code
           fi
 
-#      - name: Login to DockerHub
-#        uses: docker/login-action@v1
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#
-#      - name: Push Docker image
-#        run: docker push your-dockerhub-username/myapp:latest
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Get next version
+        uses: reecetech/version-increment@2023.4.1
+        id: version
+        with:
+          scheme: semver
+          increment: patch
+
+      - name: Push Docker image as latest + with the new version
+        run: |
+          docker push dafna/fibi:${{ steps.version.outputs.version }}
+          docker push dafna/fibi:latest
 #
 #      - name: Deploy to Kubernetes
 #        env:
