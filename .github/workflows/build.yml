@@ -31,11 +31,11 @@ jobs:
         working-directory: python
 
       - name: Run the built container to test image
-        run: docker run -p 8000:8000 fibi
+        run: docker run -d -p 8000:8000 fibi
 
       - name: Curl the container and check status
         run: |
-          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://0.0.0.0:8000/?n=10)
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8000/?n=10)
           if [[ "$RESPONSE" -eq 200 ]]; then
             echo "HTTP request succeeded with status code 200"
             exit 0  # Success exit code
