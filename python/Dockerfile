@@ -4,6 +4,6 @@ RUN groupadd -g 999 fibi && \
     useradd -r -u 999 -g fibi fibi
 USER 999
 WORKDIR /usr/app
-COPY . .
+COPY main.py logger.py ./
 ENV PATH="/usr/app/venv/bin:$PATH"
 CMD [ "python", "main.py" ]

@@ -6,14 +6,12 @@ import logging
 def fibonacci(n: int):
     """Return the first `n` Fibonacci numbers."""
     # check for input validity- positive ints.
-    logging.info("Calculating fibonacci sequence for {}".format(n))
     if not isinstance(n, int) or n < 0:
         logging.error("Input must be a non-negative integer")
         raise ValueError("Input must be a non-negative integer.")
     result = [1, 1]
     while len(result) < n:
         result.append(result[-2] + result[-1])
-    logging.info("Finished calculating fibonacci sequence", extra={"additional_detail": "Last item in sequence: {}".format(result[-1])})
     return result[:n]
 
 class GetFibs(BaseHTTPRequestHandler):
@@ -35,10 +33,10 @@ class GetFibs(BaseHTTPRequestHandler):
 
         try:
             key = int(params["n"][0])
-            logging.info("Running fibonacci function on n")
+            logging.info("Running fibonacci function on n={}".format(key))
             nums = fibonacci(key)
         except (IndexError, ValueError) as e:
-            logging.error("The value of parameter 'n' cannot be converted to integer, cannot handle request: {}".format(e))
+            logging.error("The value of parameter 'n' cannot be converted to integer or is negative, cannot handle request: {}".format(e))
             self.send_response(422)
             return
 
