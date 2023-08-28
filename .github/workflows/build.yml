@@ -56,12 +56,15 @@ jobs:
         run: |
           docker push dafna/fibi:${{ github.run_number }}
           docker push dafna/fibi:latest
-#
-#      - name: Deploy to Kubernetes
-#        env:
-#          KUBECONFIG: ${{ secrets.KUBECONFIG_ENCRYPTED }}
-#        run: |
-#          mkdir -p ~/.kube
-#          echo "${{ secrets.KUBECONFIG_ENCRYPTED }}" | base64 -d > ~/.kube/config
-#          kubectl config use-context my-local-cluster-context
-#          kubectl apply -f path/to/deployment.yaml
+          sleep 5
+
+  deploy-image-to-kubernetes:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy fibi app to K8S
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm upgrade fibi ./chart/fibi -n fibi
+          kubeconfig: '${{ secrets.KUBECONFIG }}'
+          overrule_existing_kubeconfig: "true"
