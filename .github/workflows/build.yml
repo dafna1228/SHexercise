@@ -26,9 +26,24 @@ jobs:
       - name: Run unit tests
         run: python -m pytest python/tests.py
 
-#      - name: Build Docker image
-#        run: docker build -t myapp .
-#
+      - name: Build Docker image
+        run: docker build -t fibi .
+        working-directory: python
+
+      - name: Run built container to test image
+        run: run -p 8000:8000 fibi
+
+      - name: Curl the container and check status
+        run: |
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://0.0.0.0:8000/?n=10)
+          if [[ "$RESPONSE" -eq 200 ]]; then
+            echo "HTTP request succeeded with status code 200"
+            exit 0  # Success exit code
+          else
+            echo "HTTP request failed with status code $RESPONSE"
+            exit 1  # Failure exit code
+          fi
+
 #      - name: Login to DockerHub
 #        uses: docker/login-action@v1
 #        with:
