@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   # todo: change to fibi:latest
   name: "dafna/fibi:latest"
