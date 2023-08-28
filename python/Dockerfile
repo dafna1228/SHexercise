@@ -4,9 +4,6 @@ RUN groupadd -g 999 fibi && \
     useradd -r -u 999 -g fibi fibi
 USER 999
 WORKDIR /usr/app
-#COPY requirements.txt .
-#RUN pip install -r requirements.txt
 COPY . .
 ENV PATH="/usr/app/venv/bin:$PATH"
-# is the dockerfile also copied to the container?
 CMD [ "python", "main.py" ]
