@@ -3,6 +3,7 @@ from urllib.parse import urlparse, parse_qs
 from logger import jsonConfig
 import logging
 
+
 def fibonacci(n: int):
     """Return the first `n` Fibonacci numbers."""
     # check for input validity- positive ints.
@@ -13,6 +14,7 @@ def fibonacci(n: int):
     while len(result) < n:
         result.append(result[-2] + result[-1])
     return result[:n]
+
 
 class GetFibs(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -25,7 +27,8 @@ class GetFibs(BaseHTTPRequestHandler):
         logging.info("Handeling a get request")
         query = urlparse(self.path).query
         params = parse_qs(query)
-        logging.info("Parsed parameters", extra={"additional_detail": "Params: {}".format(params)})
+        logging.info("Parsed parameters",
+                     extra={"additional_detail": "Params: {}".format(params)})
         if "n" not in params:
             logging.error("Parameter 'n' is not in input, cannot handle request")
             self.send_response(422)
@@ -36,7 +39,8 @@ class GetFibs(BaseHTTPRequestHandler):
             logging.info("Running fibonacci function on n={}".format(key))
             nums = fibonacci(key)
         except (IndexError, ValueError) as e:
-            logging.error("The value of parameter 'n' cannot be converted to integer or is negative, cannot handle request: {}".format(e))
+            logging.error("The value of parameter 'n' cannot be converted to integer "
+                          "or is negative, cannot handle request: {}".format(e))
             self.send_response(422)
             return
 

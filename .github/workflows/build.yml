@@ -15,6 +15,8 @@ jobs:
 
       - name: flake8 Lint
         uses: py-actions/flake8@v2
+        with:
+          max-line-length: "100"
 
       - name: Set up Python
         uses: actions/setup-python@v2
