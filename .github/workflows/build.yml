@@ -26,8 +26,16 @@ jobs:
 #      - name: Run unit tests
 #        run: python -m pytest python/tests.py
 
-      - name: Build Docker image
-        run: docker build -t fibi .
+      - name: Get next version
+        uses: reecetech/version-increment@2023.4.1
+        id: version
+        with:
+          scheme: semver
+          increment: patch
+      - name: Build Docker image and tag it with latest.
+        run: |
+          docker build -t dafna/fibi:${{ steps.version.outputs.version }} .
+          docker tag dafna/fibi:${{ steps.version.outputs.version }} dafna/fibi:latest
         working-directory: python
 
       - name: Run the built container to test image, sleep a bit for the webserver to start
@@ -49,13 +57,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: Get next version
-        uses: reecetech/version-increment@2023.4.1
-        id: version
-        with:
-          scheme: semver
-          increment: patch
 
       - name: Push Docker image as latest + with the new version
         run: |
