@@ -30,8 +30,8 @@ jobs:
         run: docker build -t fibi .
         working-directory: python
 
-      - name: Run built container to test image
-        run: run -p 8000:8000 fibi
+      - name: Run the built container to test image
+        run: docker run -p 8000:8000 fibi
 
       - name: Curl the container and check status
         run: |
