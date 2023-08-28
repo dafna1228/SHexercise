@@ -13,19 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-#      - name: Set up Python
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.x
-#
-#      - name: Install dependencies
-#        run: |
-#          pip install --upgrade pip
-#          pip install -r requirements.txt
-#
-#      - name: Run unit tests
-#        run: python -m pytest python/tests.py
-#
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: python -m pytest python/tests.py
+
       - name: Build Docker image and tag it with latest.
         run: |
           docker build -t dafna/fibi:${{ github.run_number }} .
