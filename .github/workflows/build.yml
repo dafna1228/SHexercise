@@ -59,6 +59,7 @@ jobs:
           sleep 5
 
   deploy-image-to-kubernetes:
+    needs: build-and-upload-image
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
