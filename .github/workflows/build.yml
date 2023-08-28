@@ -39,7 +39,7 @@ jobs:
         working-directory: python
 
       - name: Run the built container to test image, sleep a bit for the webserver to start
-        run: docker run -d -p 8000:8000 fibi; sleep 5
+        run: docker run -d -p 8000:8000 dafna/fibi:latest; sleep 5
 
       - name: Curl the container and check status
         run: |
